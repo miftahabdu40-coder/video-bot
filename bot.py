@@ -36,10 +36,10 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     status_msg = await update.message.reply_text("⏳ ቪዲዮውን በማውረድ ላይ ነው፣ እባክዎ ትንሽ ይጠብቁ...")
     output_template = 'downloaded_video.mp4'
-    ydl_opts = {
+        ydl_opts = {
         'format': 'best',
         'outtmpl': output_template,
-    }
+        }
 
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
