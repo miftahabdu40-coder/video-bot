@@ -21,7 +21,6 @@ def keep_alive():
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-# የ /start ትእዛዝ ሲላክ የሚሰጠው ምላሽ
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "ሰላም ሚፍታህ! 🚀 እኔ Miff Video Downloader ቦት ነኝ።\n\n"
@@ -36,10 +35,11 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     status_msg = await update.message.reply_text("⏳ ቪዲዮውን በማውረድ ላይ ነው፣ እባክዎ ትንሽ ይጠብቁ...")
     output_template = 'downloaded_video.mp4'
-        ydl_opts = {
-        'format': 'best',
+    ydl_opts = {
+        'format': 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / best',
         'outtmpl': output_template,
-        }
+        'merge_output_format': 'mp4',
+    }
 
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -58,7 +58,6 @@ if __name__ == '__main__':
     keep_alive()
     TOKEN = os.environ.get("BOT_TOKEN")
     
-    # የጊዜ ገደብ (Timeouts) የተስተካከለበት ትክክለኛ ግንኙነት
     application = ApplicationBuilder().token(TOKEN).read_timeout(30).write_timeout(30).connect_timeout(30).pool_timeout(30).build()
     
     application.add_handler(CommandHandler("start", start))
